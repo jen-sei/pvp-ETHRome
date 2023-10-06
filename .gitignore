@@ -1,0 +1,71 @@
+.env
+/backend/target
+/backend/Cargo.lock
+/backend/contract*
+contract_history.ts
+contract_info.ts
+deploy.yml
+export_sources.sh
+dev_gen_update_dotenv.py
+dotenv_update.ts
+enerate.py
+instantiate_contract.ts
+load_contract.sh
+load_contract.ts
+LICENSE
+migrate_contract.ts
+package.json
+update_dotenv.json
+update_be_cargo_toml.py
+update_fe_package_json.py
+Makefile
+build_contract.sh
+.vscode
+*pycache*
+/frontend/gen_scripts/*pycache*
+/backend/gen_scripts/*pycache*
+
+
+
+
+# dependencies
+/frontend/node_modules
+/frontend/.pnp
+/frontend/.pnp.js
+
+# testing
+/frontend/coverage
+
+# next.js
+/frontend/.next/
+/frontend/out/
+
+# production
+/frontend/build
+
+# misc
+/frontend/.DS_Store
+/frontend/*.pem
+
+# debug
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/.pnpm-debug.log*
+
+# local env files
+/frontend/.env*.local
+
+# vercel
+/frontend/.vercel
+
+# typescript
+/frontend/*.tsbuildinfo
+/frontend/next-env.d.ts
+
+/frontend/docker.sh
+/frontend/Dockerfile
+/frontend/Makefile
+/frontend/package-lock.json
+/frontend/public/
+/frontend/node_modules
