@@ -16,7 +16,8 @@ function Dashboard() {
   const [hand, setHand] = useState([255,255,255,255,255]);
   const [bet, setBet] = useState(1);
   const [dealt, setDealt] = useState(false);
-
+  const [outcome, setOutcome] = useState('UNDEFINED');
+  const [won, setWon] = useState('-');
 
   useEffect(function () {
 
@@ -25,7 +26,7 @@ function Dashboard() {
       return;
   }
 
-    (async function(){
+   let do_query = async function(){
       let inst_state_result = await instance_state();
       if (inst_state_result[1]) {
         let inst_state = inst_state_result[0] as InstanceState;
@@ -33,27 +34,42 @@ function Dashboard() {
         // sync state with backend
         setHand(inst_state.hand);
         setDealt(inst_state.dealt);
-        console.log(inst_state_result[0]);
+        setOutcome(inst_state.last_outcome);
+        setWon(inst_state.last_win);
 
       } else {
-        console.log(inst_state_result[0]);
+       
       }
-    })();
+
+      console.log(inst_state_result[0]);
+    }
+
+    do_query();
+
+    // check state every 7 seconds
+    const id = setInterval(do_query, 7000);
+    return () => clearInterval(id);
   },[ dealt]);
 
 
 
   return (
-    <div className='w-screen h-screen'>
+    <div className='w-screen h-screen relative'>
       <BettingTable bet={bet}/>
 
-        <div className='w-2/3 left-0 right-0 m-auto'>
-            <Hand hand={hand}/>
-        </div>
+      <div className='w-2/3 h-48 left-0 right-0 m-auto'>
+          <Hand hand={hand}/>
+      </div>
 
-        <div className='absolute bottom-20 bg-green-300 w-full h-20'>
-          <Controls bet={bet} setBet={setBet} dealt={dealt} setDealt={setDealt}/>
-        </div>
+      <div>
+        Outcome: {outcome}
+      </div>
+      <div>
+        Won: {won}
+      </div>
+
+        <Controls bet={bet} setBet={setBet} dealt={dealt} setDealt={setDealt}/>
+      
 
     </div>
   )

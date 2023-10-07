@@ -6,7 +6,9 @@ export interface InstanceState {
     hand : number[];
     dealt : boolean;
     bet : number;
-    last_outcome : String
+    last_outcome : string
+    last_win : string
+
 }
 
 export function isInstanceState(object : any) : boolean {
@@ -15,5 +17,7 @@ export function isInstanceState(object : any) : boolean {
     'hand' in object &&
     'dealt' in object &&
     'bet' in object &&
-    'last_outcome' in object
+    'last_outcome' in object &&
+    'last_win' in object
+
 }

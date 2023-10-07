@@ -42,7 +42,7 @@ function Controls( props : ControlsProps) {
     }
     
   return (
-    <div className='absolute m-auto left-0 right-0 w-full h-fit'>
+    <div className='absolute m-auto bottom-20 left-0 right-0 w-full h-fit'>
         <div 
         onClick={async _ => {await pvp.generate_vk()}} 
         className='float-left bg-red-300 p-8 hover:bg-red-600'>

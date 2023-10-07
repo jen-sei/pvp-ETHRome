@@ -12,7 +12,8 @@ pub struct Instance {
     pub rng: Pcg64,
     pub dealt: bool,
     pub bet: u8,
-    pub last_outcome: String
+    pub last_outcome: String,
+    pub last_win: String
 }
 
 #[derive(Debug)]
@@ -282,7 +283,9 @@ mod test_instance {
             dealt: false,
             rng: Pcg64::from_seed([0u8; 32]),
             bet: 1,
-            last_outcome: format!("{:?}", Outcome::UNDEFINED)
+            last_outcome: format!("{:?}", Outcome::UNDEFINED),
+            last_win: "0".to_string()
+
         }
     }
 

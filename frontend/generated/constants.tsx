@@ -28,7 +28,7 @@ export class Pvp {
 
 BLACKJACK_VERSION : string     = "0.0.0-hackathon";              
 CONTRACT_ADDRESS : string      = "secret1lrhqm0y74cd9g0ag7qay5sjlhtp82ulep3tfzn";     
-CODE_ID : number               = 1570;                
+CODE_ID : number               = 1572;                
 CHAIN_ID : string               = "pulsar-3";            
 LCD_URL : string               = "https://lcd.pulsar-3.secretsaturn.net";            
 

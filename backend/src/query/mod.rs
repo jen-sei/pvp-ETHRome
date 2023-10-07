@@ -15,7 +15,8 @@ pub struct InstanceState {
     pub hand: Vec<u8>,
     pub bet: u8,
     pub dealt: bool,
-    pub last_outcome: String
+    pub last_outcome: String,
+    pub last_win: String
 }
 
 pub fn querier_is_auth(store: &dyn Storage, sender_addr: &String, sender_key: &str) -> bool {

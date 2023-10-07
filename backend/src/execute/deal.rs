@@ -18,7 +18,9 @@ pub fn execute_deal( deps : DepsMut,
                 dealt: false,
                 rng: Pcg64::from_seed(try_option(env.block.random.clone())?.to_array::<32>()?),
                 bet,
-                last_outcome: format!("{:?}", Outcome::UNDEFINED)
+                last_outcome: format!("{:?}", Outcome::UNDEFINED),
+                last_win: "0".to_string()
+
             }
         };
 
@@ -28,6 +30,14 @@ pub fn execute_deal( deps : DepsMut,
 
         // the bet will go up to 5 scrt
         make_payment(&env, &info, bet as u128 * 1_000_000, "uscrt".to_string())?;
+
+
+        // return the cards from the hand to the deck.
+        if !inst.hand.is_empty() {
+            for _ in 0..5 {
+                inst.deck.push(inst.hand.pop().unwrap());
+            }
+        }
 
         inst.shuffle_deck(2);
         inst.deal()?;

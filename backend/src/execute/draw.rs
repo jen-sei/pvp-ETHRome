@@ -15,6 +15,11 @@ pub fn execute_draw(
         inst.dealt = false;
         let value = inst.draw(unheld)?;
 
+        // return the cards from the hand to the deck.
+        for _ in 0..5 {
+            inst.deck.push(inst.hand.pop().unwrap());
+        }
+
         // if value is non-zero its a win! Send the corresponding token value
         if value != 0 {
 
@@ -24,6 +29,7 @@ pub fn execute_draw(
                 amount: vec![Coin::new(prize, "uscrt")],
             });
 
+            inst.last_win = prize.to_string();
             INSTANCES.insert(deps.storage, &info.sender.to_string(), &inst)?;
             return Ok(Response::new().add_message(msg))
 
