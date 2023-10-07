@@ -13,6 +13,7 @@ AFFILIATIONS:   AART, Secret
 
 
 
+export const ERR_UNAUTHORISED = new RegExp("Unauthorised.")
 
 /******************************************************************************
 Secret
@@ -28,9 +29,9 @@ export class Pvp {
 
 BLACKJACK_VERSION : string     = "0.0.0-hackathon";              
 CONTRACT_ADDRESS : string      = "secret1lrhqm0y74cd9g0ag7qay5sjlhtp82ulep3tfzn";     
-CODE_ID : number               = 1572;                
+CODE_ID : number               = 1585;                
 CHAIN_ID : string               = "pulsar-3";            
-LCD_URL : string               = "https://lcd.pulsar-3.secretsaturn.net";            
+LCD_URL : string               = "https://lcd.testnet.secretsaturn.net";            
 
   cli         : SecretNetworkClient = {} as SecretNetworkClient;
   granter     : SecretNetworkClient = {} as SecretNetworkClient;
@@ -72,10 +73,10 @@ LCD_URL : string               = "https://lcd.pulsar-3.secretsaturn.net";
 
   }
 
-  async generate_vk() {
+  async generate_vk() : Promise<boolean> {
 
     if( !(await swal_confirm('generate a viewing key?'))) {
-      return
+      return false;
     }
     
     let entropy = random_string();
@@ -88,10 +89,12 @@ LCD_URL : string               = "https://lcd.pulsar-3.secretsaturn.net";
       this.viewing_key = set_vk_result.arrayLog[6].value;
     } else if (typeof set_vk_result === 'string' ) {
       await swal_error(set_vk_result);
-      return;
+      return false;
     }
 
     window.localStorage.setItem('pvp_viewing_key', pvp.viewing_key);
+
+    return true
   }
 
   async generate_alias() {

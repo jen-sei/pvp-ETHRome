@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { check_env, do_init, swal_error, swal_success } from '@/src/helpers'
 import { pvp } from '@/generated/constants';
 import Image from 'next/image';
-import Link from 'next/link';
 import { SecretNetworkClient, Wallet } from 'secretjs';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';

@@ -24,6 +24,5 @@ pub fn query_instance_state(
         dealt: inst.dealt,
         last_outcome: inst.last_outcome,
         last_win: inst.last_win
-
     })
 }

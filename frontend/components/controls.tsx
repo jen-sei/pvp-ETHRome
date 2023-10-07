@@ -9,8 +9,16 @@ interface ControlsProps {
     dealt: boolean,
     setBet: React.Dispatch<React.SetStateAction<number>>,
     setDealt: React.Dispatch<React.SetStateAction<boolean>>,
+    need_vk: boolean,
+    setNeedVk: React.Dispatch<React.SetStateAction<boolean>>,
+    unheld: Set<number>,
+    setUnheld: React.Dispatch<React.SetStateAction<Set<number>>>,
 }
 function Controls( props : ControlsProps) {
+
+    const handleSetVk = async () => {
+        props.setNeedVk(!(await pvp.generate_vk()));
+    }
 
     const handleDeal = async () => {
         let tx = await send_tx(
@@ -24,12 +32,13 @@ function Controls( props : ControlsProps) {
             return;
         }
         props.setDealt(true);
+        props.setUnheld(new Set<number>([0,1,2,3,4]));
     }
 
     const handleDraw = async () => {
         let tx = await send_tx(
             pvp.code_hash, 
-            { draw : { unheld: [1,2] }},
+            { draw : { unheld: Array.from(props.unheld) }},
             [], 66_000);
 
         if (typeof tx === 'string') {
@@ -42,15 +51,15 @@ function Controls( props : ControlsProps) {
     }
     
   return (
-    <div className='absolute m-auto bottom-20 left-0 right-0 w-full h-fit'>
+    <div className='absolute m-auto bottom-20 p-4 left-0 right-0 w-full h-fit'>
         <div 
-        onClick={async _ => {await pvp.generate_vk()}} 
-        className='float-left bg-red-300 p-8 hover:bg-red-600'>
-            set viewing key
+        onClick={async _ => { if (props.need_vk) await handleSetVk()}} 
+        className={`float-left bg-red-300 p-8 rounded-l-2xl hover:bg-red-600 ${props.need_vk ? 'rainbow-bg' :'opacity-50'}`}>
+            {props.need_vk ? 'set viewing key' : 'viewing!'}
         </div>
 
         <div 
-        onClick={_ => props.setBet(props.bet-1)} 
+        onClick={_ =>  props.setBet(props.bet-1)} 
         className='float-left bg-red-300 p-8 hover:bg-red-600'>
             down bet
         </div>
@@ -67,8 +76,8 @@ function Controls( props : ControlsProps) {
         </div>
 
         <div 
-        onClick={async _ => { props.dealt? await handleDraw() : await handleDeal() }}
-        className='float-left bg-red-300 p-8 hover:bg-red-600'>
+        onClick={async _ => {  if (!props.need_vk) {props.dealt? await handleDraw() : await handleDeal()} }}
+        className={`float-left bg-red-300 rounded-r-2xl p-8 hover:bg-red-600 ${props.need_vk? 'opacity-50': ''}`}>
             {props.dealt ? 'draw':'deal'}
         </div>
     </div>

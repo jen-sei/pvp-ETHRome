@@ -4,16 +4,6 @@ use cosmwasm_std::{
 
 };
 
-use schemars::JsonSchema;
-use serde::{Deserialize, Serialize};
-
-#[derive(Serialize, Deserialize, Copy, Clone, Debug, PartialEq, Eq, JsonSchema)]
-pub enum Status {
-    Pickup { n: u8 },
-    Suit { suit: u8 },
-    Normal {},
-}
-
 // translates a number into a card by its suit and rank
 #[inline(always)]
 pub fn translate_card(value: u8) -> (u8, u8) {

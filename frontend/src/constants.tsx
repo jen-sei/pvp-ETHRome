@@ -1,3 +1,4 @@
+export const ERR_UNAUTHORISED = new RegExp("Unauthorised.")
 
 /******************************************************************************
 Secret
@@ -59,10 +60,10 @@ export class Pvp {
 
   }
 
-  async generate_vk() {
+  async generate_vk() : Promise<boolean> {
 
     if( !(await swal_confirm('generate a viewing key?'))) {
-      return
+      return false;
     }
     
     let entropy = random_string();
@@ -75,10 +76,12 @@ export class Pvp {
       this.viewing_key = set_vk_result.arrayLog[6].value;
     } else if (typeof set_vk_result === 'string' ) {
       await swal_error(set_vk_result);
-      return;
+      return false;
     }
 
     window.localStorage.setItem('pvp_viewing_key', pvp.viewing_key);
+
+    return true
   }
 
   async generate_alias() {

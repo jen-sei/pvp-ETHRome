@@ -103,47 +103,6 @@ export function currency_str(amount : string, denom : string) : [string, string]
   return [amount_str, denom]
 }
 
-export const check_alias_cli = async () => {
-  
-  // if cli exists in local storage, check if it is alias of granter
-  let storage_cli_mnem = window.localStorage.getItem('alias_cli_mnem');
-  if (storage_cli_mnem) {
-
-    let wallet = new Wallet(storage_cli_mnem); 
-    const grantee = new SecretNetworkClient({
-      url: pvp.LCD_URL,
-      chainId: pvp.CHAIN_ID,
-      wallet: wallet,
-      walletAddress: wallet.address,
-    });
-
-    // wipe the old one
-    window.localStorage.removeItem('pvp_alias_cli_mnem');
-
-  }
-
-  let enable_alias = await  swal_confirm(
-`Enable an Alias client for in-game actions? (highly recommended).
-
-An Alias client is a generated client which uses the fee-grant feature, allowing you to perform in-game only actions without needing to tediously double-confirm with your wallet every time.
-
-This alias does not have access to your wallet funds.`, 'Enable Alias?');
-
-  pvp.set_enable_alias(enable_alias);
-
-
-  return false
-}
-
-
-const grant_alias_or_self = async ( granter: SecretNetworkClient) : Promise<boolean> => {
-
-  if (!pvp.enable_alias) {
-    return true;
-  }
-  return await pvp.generate_alias();
-}
-
 export const init_metamask = async (): Promise<SecretNetworkClient| null> => {
 
   let metamask = null;
@@ -297,11 +256,6 @@ export const do_init = async (wallet: string) => {
     await swal_alert('You wont be able to perform basic actions (They will simply fail).', 'Your balance is zero!');
   }
   
-  // if the storage to backend alias is a mismatch and the grant alias txn fails, return false
-  if ( !(await check_alias_cli()) && !(await grant_alias_or_self(secretcli)) ) {
-    return false;
-  }
-
   pvp.ready = true;
   document.title = `Black Jack${pvp.CHAIN_ID.includes('pulsar') ? ' (testnet)' : ''}`
 

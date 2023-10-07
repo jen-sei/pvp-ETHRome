@@ -3,67 +3,116 @@ import React from 'react'
 import Image  from 'next/image'
 
 interface HandProps {
-    hand : number[]
+    hand : number[],
+    unheld: Set<number>,
+    setUnheld:  React.Dispatch<React.SetStateAction<Set<number>>>,
+
 }
 
 
 function Hand(props : HandProps) {
+
+  const handleClickCard = (num : number) => {
+    if (props.unheld.has(num)) {
+      // remove it from the unheld set
+      props.setUnheld(prev_set => new Set([...prev_set].filter(x => x !== num)))
+    } else {
+      // add it to the unheld set
+      props.setUnheld(prev_set => new Set<number>([...prev_set, num]))
+    }
+
+  }
   return (
     <>
-        <div className='m-auto left-0 right-0 float-left w-1/5 h-5'>
+      <div
+        onClick={_ => handleClickCard(0)}
+        className='m-auto left-0 right-0 float-left w-1/5 h-full relative'>
           <Image 
           width="0"
           height="0"
           sizes="100vw"
-          className="w-full h-auto select-none"
-          alt='hand0' 
+          className="w-full h-48 top-0 left-0 absolute select-none"
+          alt='hand4' 
           src={`/deck/${numberToImg(props.hand[0] || 255)}.png`}
           />
-        </div>
+          <div className={
+            `absolute left-9 top-0 w-40 h-48 rainbow-bg 
+            select-none rounded
+            ${!props.unheld.has(0) ? 'hidden' :'opacity-25'}`}>
+          </div>
+      </div>
 
-        <div className='m-auto left-0 right-0 float-left w-1/5 h-5 relative'>
+      <div
+        onClick={_ => handleClickCard(1)}
+        className='m-auto left-0 right-0 float-left w-1/5 h-full relative'>
           <Image 
           width="0"
           height="0"
           sizes="100vw"
-          className="w-full h-auto top-0 left-0 absolute select-none"
-          alt='hand1' 
+          className="w-full h-48 top-0 left-0 absolute select-none"
+          alt='hand4' 
           src={`/deck/${numberToImg(props.hand[1] || 255)}.png`}
           />
-        </div>
+          <div className={
+            `absolute left-9 top-0 w-40 h-48 rainbow-bg 
+            select-none rounded
+            ${!props.unheld.has(1) ? 'hidden' :'opacity-25'}`}>
+          </div>
+      </div>
 
-        <div className='m-auto left-0 right-0 float-left w-1/5 h-5 relative'>
+      <div
+        onClick={_ => handleClickCard(2)}
+        className='m-auto left-0 right-0 float-left w-1/5 h-full relative'>
           <Image 
           width="0"
           height="0"
           sizes="100vw"
-          className="w-full h-auto top-0 left-0 select-none"
-          alt='hand2' 
-          src={`/deck/${numberToImg(props.hand[2]|| 255)}.png`}
+          className="w-full h-48 top-0 left-0 absolute select-none"
+          alt='hand4' 
+          src={`/deck/${numberToImg(props.hand[2] || 255)}.png`}
           />
-        </div>
+          <div className={
+            `absolute left-9 top-0 w-40 h-48 rainbow-bg 
+            select-none rounded
+            ${!props.unheld.has(2) ? 'hidden' :'opacity-25'}`}>
+          </div>
+      </div>
 
-        <div className='m-auto left-0 right-0 float-left w-1/5 h-5 relative'>
+      <div
+        onClick={_ => handleClickCard(3)}
+        className='m-auto left-0 right-0 float-left w-1/5 h-full relative'>
           <Image 
           width="0"
           height="0"
           sizes="100vw"
-          className="w-full h-auto top-0 left-0 absolute select-none"
-          alt='hand3' 
+          className="w-full h-48 top-0 left-0 absolute select-none"
+          alt='hand4' 
           src={`/deck/${numberToImg(props.hand[3] || 255)}.png`}
           />
-        </div>
+          <div className={
+            `absolute left-9 top-0 w-40 h-48 rainbow-bg 
+            select-none rounded
+            ${!props.unheld.has(3) ? 'hidden' :'opacity-25'}`}>
+          </div>
+      </div>
 
-        <div className='m-auto left-0 right-0 float-left w-1/5 h-5 relative'>
+      <div
+        onClick={_ => handleClickCard(4)}
+        className='m-auto left-0 right-0 float-left w-1/5 h-full relative'>
           <Image 
           width="0"
           height="0"
           sizes="100vw"
-          className="w-full h-auto top-0 left-0 absolute select-none"
+          className="w-full h-48 top-0 left-0 absolute select-none"
           alt='hand4' 
           src={`/deck/${numberToImg(props.hand[4] || 255)}.png`}
           />
-        </div>
+          <div className={
+            `absolute left-9 top-0 w-40 h-48 rainbow-bg 
+            select-none rounded
+            ${!props.unheld.has(4) ? 'hidden' :'opacity-25'}`}>
+          </div>
+      </div>
 
     </>
 

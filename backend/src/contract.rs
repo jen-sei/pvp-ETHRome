@@ -42,16 +42,15 @@ pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> S
             bet,
         ),
         ExecuteMsg::Draw {
-            unheld
+            held
         } => execute::draw::execute_draw(
             deps,
             info,
-            unheld,
+            held,
         ),
         ExecuteMsg::SetViewingKey { 
             key 
         } => execute::set_vk::execute_set_vk(deps, env, info, key),
-
     }
 }
 
@@ -65,7 +64,7 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
             deps,
             sender_addr,
             sender_key,
-        )?)
+        )?),
     }
 }
 

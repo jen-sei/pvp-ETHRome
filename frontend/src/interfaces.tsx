@@ -21,3 +21,17 @@ export function isInstanceState(object : any) : boolean {
     'last_win' in object
 
 }
+
+/******************************************************************************
+is alias of Interface
+******************************************************************************/
+
+export interface IAliasInfo{
+    alias_of : String,
+} 
+
+export function isAliasInfo(object: any): object is IAliasInfo {
+    return !(object instanceof String) &&
+    typeof(object) !== "string" &&
+    'alias_of' in object
+}

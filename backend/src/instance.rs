@@ -53,6 +53,16 @@ impl Instance {
 
     pub fn deal (&mut self) -> StdResult<()> {
 
+        // do tidy up from previous game if 
+        // present
+        if !self.hand.is_empty() {
+            let mut hand_cpy = self.hand.clone();
+            self.deck.append(&mut hand_cpy);
+            self.hand.clear();
+        }
+
+        self.shuffle_deck(2);
+
         // deal out five cards
         for _ in 0..5 {
             self.hand.push(self.deck.pop().unwrap());
@@ -62,19 +72,31 @@ impl Instance {
         Ok(())
     }
 
-    pub fn draw (&mut self, unheld : Vec<u8> ) -> StdResult<u8> {
+    pub fn draw (&mut self, held : & Vec<u8> ) -> StdResult<u8> {
+ 
+ 
+        // to retain their positions set a temporarilt flag
+        // we use a sentinel value of 255, to flag as an unheld card
+        // returned to the deck.
 
-        // return unheld cards to deck
-        for i in unheld {
-            self.deck.push(self.hand.remove(i as usize));
+        for i in self.hand.iter_mut() {
+            if !held.iter().any(|&j|j == *i) {
+                // this card is not flagged for hold
+                // set it temporarily to 255.
+                self.deck.push(*i);
+                *i = 255;
+            }
+            
         }
 
         // reshuffle cards
         Self::internal_shuffle_deck(&mut self.deck, 2, &mut self.rng);
 
         // draw more cards
-        while self.hand.len() < 5 {
-            self.hand.push(self.deck.pop().unwrap());
+        for i in self.hand.iter_mut()  {
+            if *i == 255 {
+                *i = self.deck.pop().unwrap();
+            }
         }
 
         // we determine the outcome and return the 
@@ -297,22 +319,22 @@ mod test_instance {
         // clubs a 10 j q k
         inst.hand = vec![0, 9, 10, 11, 12];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::RoyalFlush.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::RoyalFlush.value()); 
 
         // diamonds a 10 j q k
         inst.hand = vec![13, 22, 23, 24, 25];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::RoyalFlush.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::RoyalFlush.value()); 
 
         // spades a 10 j q k
         inst.hand = vec![26, 35, 36, 37, 38];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::RoyalFlush.value());
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::RoyalFlush.value());
 
         // hearts a 10 j q k
         inst.hand = vec![39, 48, 49, 50, 51];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::RoyalFlush.value());
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::RoyalFlush.value());
 
     }
 
@@ -324,22 +346,22 @@ mod test_instance {
         // clubs 2 3 4 5 6
         inst.hand = vec![1,2,3,4,5];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::StraightFlush.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::StraightFlush.value()); 
 
         // diamonds 2 3 4 5 6
         inst.hand = vec![14, 15, 16, 17, 18];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::StraightFlush.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::StraightFlush.value()); 
 
         // spades 2 3 4 5 6
         inst.hand = vec![27, 28, 29, 30, 31];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::StraightFlush.value());
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::StraightFlush.value());
 
         // hearts 2 3 4 5 6
         inst.hand = vec![40, 41, 42, 43, 44];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::StraightFlush.value());
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::StraightFlush.value());
 
     }
 
@@ -353,17 +375,17 @@ mod test_instance {
         // 4 5s
         inst.hand = vec![6, 19, 32, 45, 15];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::FourOfAKind.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::FourOfAKind.value()); 
 
         // 4 9s
         inst.hand = vec![8, 21, 34, 18, 47];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::FourOfAKind.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::FourOfAKind.value()); 
 
         // 4 4s
         inst.hand = vec![3, 42, 16, 2, 29];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::FourOfAKind.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::FourOfAKind.value()); 
 
 
     }
@@ -376,17 +398,17 @@ mod test_instance {
         // 3 5s
         inst.hand = vec![6, 19, 32, 12, 15];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::ThreeOfAKind.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::ThreeOfAKind.value()); 
 
         // 3 9s
         inst.hand = vec![8, 21, 34, 18, 2];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::ThreeOfAKind.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::ThreeOfAKind.value()); 
 
         // 3 4s
         inst.hand = vec![3, 5, 16, 2, 29];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::ThreeOfAKind.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::ThreeOfAKind.value()); 
     }
 
     #[test]
@@ -398,7 +420,7 @@ mod test_instance {
         // 4 are at least 13 apart.
         inst.hand = vec![0, 14, 27, 40, 2];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::FullHouse.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::FullHouse.value()); 
 
     }
 
@@ -410,17 +432,17 @@ mod test_instance {
         // two queens two 2s
         inst.hand = vec![11, 50, 2, 1, 14];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::TwoPair.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::TwoPair.value()); 
 
         // two 7s two kings
         inst.hand = vec![6, 50, 32, 38, 51];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::TwoPair.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::TwoPair.value()); 
 
         // two aces two 4s
         inst.hand = vec![39, 50, 16, 3, 0];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::TwoPair.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::TwoPair.value()); 
 
     }
 
@@ -432,21 +454,70 @@ mod test_instance {
         // two jacks
         inst.hand = vec![10, 23, 2, 1, 3];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::JacksOrBetter.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::JacksOrBetter.value()); 
 
         // two aces
         inst.hand = vec![0, 23, 2, 13, 3];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::JacksOrBetter.value());
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::JacksOrBetter.value());
 
         // two kings
         inst.hand = vec![12, 23, 25, 13, 3];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::JacksOrBetter.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::JacksOrBetter.value()); 
 
         // two queens
         inst.hand = vec![11, 23, 50, 13, 3];
         inst.dealt = true;
-        assert_eq!(inst.draw(vec![]).unwrap(), Outcome::JacksOrBetter.value()); 
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::JacksOrBetter.value()); 
     }
+
+    #[test]
+    fn test_deal() {
+
+        let mut inst = mock_inst();
+        let _ = inst.deal();
+        assert_eq!(inst.deck.len(), 47);
+        assert!(inst.dealt);
+    }
+
+    #[test]
+    fn test_flag_unheld() {
+        // two jacks
+
+        let mut inst = mock_inst();
+        let _ = inst.deal();
+        assert_eq!(inst.deck.len(), 47);
+
+
+        // hold cards at indices cards 0 and 3
+        let at_0 = inst.hand[0];
+        let at_3 = inst.hand[3];
+
+        let _ = inst.draw(&vec![at_0, at_3]);
+
+        assert_eq!(inst.hand.len(), 5);
+        assert_eq!(inst.deck.len(), 47);
+        assert_eq!(inst.hand[0], at_0);
+        assert_eq!(inst.hand[3], at_3);
+
+
+        let mut inst2 = mock_inst();
+        let _ = inst2.deal();
+        assert_eq!(inst2.deck.len(), 47);
+
+
+        // hold cards at indices cards 2 and 4
+        let at_2 = inst.hand[2];
+        let at_4 = inst.hand[4];
+
+        let _ = inst2.draw(&vec![at_2, at_4]);
+
+        assert_eq!(inst.hand.len(), 5);
+        assert_eq!(inst.deck.len(), 47);
+        assert_eq!(inst.hand[2], at_2);
+        assert_eq!(inst.hand[4], at_4);
+    }
+
+
 }

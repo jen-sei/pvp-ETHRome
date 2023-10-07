@@ -6,19 +6,14 @@ use crate::{generated::state::INSTANCES, helpers::try_option};
 pub fn execute_draw(
     deps : DepsMut,
     info : MessageInfo,
-    unheld : Vec<u8>) -> StdResult<Response> {
+    held : Vec<u8>) -> StdResult<Response> {
     
         let mut inst = try_option(INSTANCES.get(deps.storage, &info.sender.to_string()))?;
         if !inst.dealt { return Err(StdError::generic_err("Not yet dealt!")) }
 
         // reset dealt flag so that after draw result can play again.
         inst.dealt = false;
-        let value = inst.draw(unheld)?;
-
-        // return the cards from the hand to the deck.
-        for _ in 0..5 {
-            inst.deck.push(inst.hand.pop().unwrap());
-        }
+        let value = inst.draw(&held)?;
 
         // if value is non-zero its a win! Send the corresponding token value
         if value != 0 {
