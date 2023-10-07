@@ -1,3 +1,4 @@
+# PrivateVideoPoker-ETHRome
 ### Made during ETHRome 2023 hackathon
 A privacy-preserving and fully on-chain retro video poker, leveraging Secret VRF for on-chain randomness 🃏
 
