@@ -34,7 +34,7 @@ function Hand(props : HandProps) {
           sizes="100vw"
           className="w-full h-48 select-none"
           alt='hand4' 
-          src={`/deck/${numberToImg(props.hand[0] || 255)}.png`}
+          src={`/deck/${numberToImg(props.hand[0])}.png`}
           />
           <div className={`
           text-center w-full p-4 ${props.dealt? '':'hidden'}
@@ -52,7 +52,7 @@ function Hand(props : HandProps) {
           sizes="100vw"
           className="w-full h-48 select-none"
           alt='hand4' 
-          src={`/deck/${numberToImg(props.hand[1] || 255)}.png`}
+          src={`/deck/${numberToImg(props.hand[1])}.png`}
           />
           <div className={`
           text-center w-full p-4 ${props.dealt? '':'hidden'}
@@ -70,7 +70,7 @@ function Hand(props : HandProps) {
           sizes="100vw"
           className="w-full h-48 select-none"
           alt='hand4' 
-          src={`/deck/${numberToImg(props.hand[2] || 255)}.png`}
+          src={`/deck/${numberToImg(props.hand[2])}.png`}
           />
           <div className={`
           text-center w-full p-4 ${props.dealt? '':'hidden'}
@@ -88,7 +88,7 @@ function Hand(props : HandProps) {
           sizes="100vw"
           className="w-full h-48 select-none"
           alt='hand4' 
-          src={`/deck/${numberToImg(props.hand[3] || 255)}.png`}
+          src={`/deck/${numberToImg(props.hand[3])}.png`}
           />
           <div className={`
           text-center w-full p-4 ${props.dealt? '':'hidden'}
@@ -106,7 +106,7 @@ function Hand(props : HandProps) {
           sizes="100vw"
           className="w-full h-48 select-none"
           alt='hand4' 
-          src={`/deck/${numberToImg(props.hand[4] || 255)}.png`}
+          src={`/deck/${numberToImg(props.hand[4])}.png`}
           />
           <div className={`
           text-center w-full p-4 ${props.dealt? '':'hidden'}

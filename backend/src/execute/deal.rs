@@ -18,7 +18,7 @@ pub fn execute_deal( deps : DepsMut,
                 dealt: false,
                 rng: Pcg64::from_seed(try_option(env.block.random.clone())?.to_array::<32>()?),
                 bet,
-                last_outcome: format!("{:?}", Outcome::UNDEFINED),
+                last_outcome: format!("{:?}", Outcome::Undefined),
                 last_win: "0".to_string()
 
             }

@@ -9,14 +9,13 @@ import { ERR_UNAUTHORISED, pvp } from '@/generated/constants';
 import { currency_str } from '@/src/helpers';
 
 
-
 function Dashboard() {
 
   const { push } = useRouter();
   const [hand, setHand] = useState([255,255,255,255,255]);
   const [bet, setBet] = useState(1);
   const [dealt, setDealt] = useState(false);
-  const [outcome, setOutcome] = useState('UNDEFINED');
+  const [outcome, setOutcome] = useState('Undefined');
   const [won, setWon] = useState('-');
   const [need_vk, setNeedVk] = useState(false);
   const [held, setHeld] = useState(new Set<number>([]));
@@ -49,8 +48,6 @@ function Dashboard() {
         setNeedVk(true);
       } else {
         console.log(inst_state_result[0]);
-        console.log(need_vk)
-
       }
 
     }
@@ -65,16 +62,18 @@ function Dashboard() {
 
 
   return (
-    <div className='w-screen h-screen relative p-10 bg-blue-300'>
+    <div className='w-screen h-screen relative p-10 bg-blue-900'>
 
-      <div className='w-full h-full bg-blue-900 relative'>
+      <div className='w-full h-full bg-sky-950 relative'>
 
         <BettingTable 
         bet={bet}
         outcome={outcome}/>
 
-        <div className={`p-2 text-2xl text-center w-full ${outcome == 'LOSE' || outcome == 'UNDEFINED' ? '': 'rainbow' }`}>
-          {outcome}
+        <div className={
+          `p-2 text-2xl text-center w-full 
+          ${outcome == 'Lose' || outcome == 'Undefined'? '': 'rainbow' }`}>
+          {dealt? '-': outcome }
         </div>
 
         <div className='w-2/3 h-60 left-0 right-0 m-auto'>
@@ -87,12 +86,12 @@ function Dashboard() {
 
 
 
-        <div className='p-2 text-lg'>
-          You won: {won}
+        <div className='p-2 text-lg bg-white w-fit inline rounded-r-2xl'>
+          {dealt ? '-' : `You won: ${won}` }
         </div>
 
-        <div className='p-2 float-right text-lg'>
-          credit: {user_bal}
+        <div className='p-2 float-right text-lg inline bg-white rounded-l-2xl'>
+          Credit: {user_bal}
         </div>
 
           <Controls 

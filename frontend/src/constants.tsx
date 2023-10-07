@@ -13,7 +13,7 @@ import { send_tx } from "@/src/transactions";
 export class Pvp {
 
   /// BEGIN AUTOGEN METADATA 
-  declare pvp_VERSION : string;
+  declare PVP_VERSION : string;
   declare CONTRACT_ADDRESS  : string;
   declare CODE_ID           : number;
   declare CHAIN_ID          : string;

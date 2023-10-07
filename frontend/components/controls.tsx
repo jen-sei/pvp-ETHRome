@@ -1,5 +1,5 @@
 import { pvp } from '@/generated/constants'
-import { random_string, swal_error } from '@/src/helpers'
+import { swal_error } from '@/src/helpers'
 import { send_tx } from '@/src/transactions'
 import React from 'react'
 
@@ -32,7 +32,7 @@ function Controls( props : ControlsProps) {
             return;
         }
         props.setDealt(true);
-        props.setHeld(new Set<number>([0,1,2,3,4]));
+        props.setHeld(new Set<number>([]));
     }
 
     const handleDraw = async () => {
@@ -51,7 +51,7 @@ function Controls( props : ControlsProps) {
     }
     
   return (
-    <div className='absolute m-auto bottom-2 p-4 left-0 right-0 w-full h-fit'>
+    <div className='absolute m-auto bottom-5 p-4 left-0 right-0 w-full h-fit'>
         <div 
         onClick={async _ => { if (props.need_vk) await handleSetVk()}} 
         className={`float-left bg-red-300 p-4 rounded-l-2xl hover:bg-red-600 ${props.need_vk ? 'rainbow-bg' :'opacity-50'}`}>

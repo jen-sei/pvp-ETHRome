@@ -3,10 +3,16 @@ import swal from 'sweetalert';
 import { QueryBalanceResponse } from 'secretjs/dist/extensions/snip1155/msg/getBalance';
 import { pvp } from '@/generated/constants';
 
+
+export function green(text : string) {
+  return (<p className="inline text-green-600 font-ibm">{text}</p>)
+}
+
+
 // maps a cad number to the corresponding image name
 export function numberToImg(num : number): string {
 
-  if (num == 255) {
+  if ( num == undefined || num == 255) {
     return 'back';
   }
 
@@ -51,7 +57,6 @@ export function numberToImg(num : number): string {
           break;
   }
       
-  // check for 10 condition (only numeric value with two digits)
   return rank_str.concat(suit_str);
 }
 

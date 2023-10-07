@@ -18,13 +18,13 @@ pub struct Instance {
 
 #[derive(Debug)]
 pub enum Outcome {
-    UNDEFINED,
-    LOSE,
+    Undefined,
+    Lose,
     TwoPair,
     JacksOrBetter,
-    FLUSH,
+    Flush,
     FullHouse,
-    STRAIGHT,
+    Straight,
     ThreeOfAKind,
     FourOfAKind,
     StraightFlush,
@@ -35,12 +35,12 @@ pub enum Outcome {
 impl Outcome {
     fn value(&self) -> u8 {
         match *self {
-            Outcome::LOSE | Outcome::UNDEFINED => 0,
+            Outcome::Lose | Outcome::Undefined => 0,
             Outcome::JacksOrBetter => 1,
             Outcome::TwoPair => 2,
             Outcome::ThreeOfAKind => 3,
-            Outcome::STRAIGHT => 4,
-            Outcome::FLUSH => 6,
+            Outcome::Straight => 4,
+            Outcome::Flush => 6,
             Outcome::FullHouse => 9,
             Outcome::FourOfAKind => 25,
             Outcome::StraightFlush => 50,
@@ -117,13 +117,13 @@ impl Instance {
         if self.is_straight_flush() { return Outcome::StraightFlush; }
         if self.is_four_of_akind() { return Outcome::FourOfAKind; }
         if self.is_full_house() { return Outcome::FullHouse; }
-        if self.is_flush() { return Outcome::FLUSH; }
-        if self.is_straight() { return Outcome::STRAIGHT; }
+        if self.is_flush() { return Outcome::Flush; }
+        if self.is_straight() { return Outcome::Straight; }
         if self.is_three_of_akind() { return Outcome::ThreeOfAKind; }
         if self.is_two_pair() { return Outcome::TwoPair; }
         if self.is_jacks_or_better() { return Outcome::JacksOrBetter; }
 
-        Outcome::LOSE
+        Outcome::Lose
     }
 
     fn is_full_house (&self) -> bool {
@@ -305,7 +305,7 @@ mod test_instance {
             dealt: false,
             rng: Pcg64::from_seed([0u8; 32]),
             bet: 1,
-            last_outcome: format!("{:?}", Outcome::UNDEFINED),
+            last_outcome: format!("{:?}", Outcome::Undefined),
             last_win: "0".to_string()
 
         }
