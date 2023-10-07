@@ -20,13 +20,12 @@ update_be_cargo_toml.py
 update_fe_package_json.py
 Makefile
 build_contract.sh
-.vscode
-*pycache*
-/frontend/gen_scripts/*pycache*
-/backend/gen_scripts/*pycache*
+/.vscode
+/__pycache__
+.DS_Store
 
-
-
+/frontend/gen_scripts/__pycache__
+/backend/gen_scripts/__pycache__
 
 # dependencies
 /frontend/node_modules
@@ -69,3 +68,5 @@ build_contract.sh
 /frontend/package-lock.json
 /frontend/public/
 /frontend/node_modules
+
+/node_modules

@@ -3,13 +3,10 @@ Selection Interface
 ******************************************************************************/
 
 export interface InstanceState {
-    pool_id : number;
-    entry : string;
-    denom : string;
-    mode: number;
-    prize: string;
-    pts: number;
-    players: number;
+    hand : number[];
+    dealt : boolean;
+    bet : number;
+    last_outcome : String
 }
 
 export function isInstanceState(object : any) : boolean {
@@ -17,5 +14,6 @@ export function isInstanceState(object : any) : boolean {
     typeof(object) !== "string" &&
     'hand' in object &&
     'dealt' in object &&
-    'bet' in object 
+    'bet' in object &&
+    'last_outcome' in object
 }

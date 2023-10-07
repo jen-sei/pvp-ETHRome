@@ -69,12 +69,13 @@ export class Pvp {
 
     let set_vk_result = await send_tx(this.code_hash as string,
       {set_viewing_key: { key: entropy }}, 
-      [], 55_000, 100) as TxResponse;
+      [], 55_000, (pvp.enable_alias? pvp.cli: pvp.granter)) as TxResponse;
     
     if (set_vk_result.arrayLog) {
       this.viewing_key = set_vk_result.arrayLog[6].value;
     } else if (typeof set_vk_result === 'string' ) {
       await swal_error(set_vk_result);
+      return;
     }
 
     window.localStorage.setItem('pvp_viewing_key', pvp.viewing_key);

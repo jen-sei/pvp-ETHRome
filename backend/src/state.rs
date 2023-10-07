@@ -3,7 +3,6 @@ type ViewingKey = String;
 
 use crate::instance::Instance;
 use cosmwasm_std::Timestamp;
-use serde::{Deserialize, Serialize};
 use secret_toolkit::serialization::Json;
 use secret_toolkit::storage::{Item, Keymap, KeymapBuilder, WithoutIter };
 

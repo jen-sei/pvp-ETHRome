@@ -3,6 +3,68 @@ import swal from 'sweetalert';
 import { QueryBalanceResponse } from 'secretjs/dist/extensions/snip1155/msg/getBalance';
 import { pvp } from '@/generated/constants';
 
+// maps a cad number to the corresponding image name
+export function numberToImg(num : number): string {
+
+  let [suit, rank] = translate_card(num);
+
+  let rank_str = '';
+  let suit_str = '';
+
+  switch (rank) {
+      case 0:
+          rank_str = 'a'; // ace
+          break;
+      case 9:
+          rank_str = '10' // 10 (only image name with two digits)
+          break;
+      case 10:
+          rank_str = 'j' //jack
+          break;
+      case 11:
+          rank_str = 'q' //queen
+          break;
+      case 12:
+          rank_str = 'k' //king
+          break;
+      default:
+          rank_str = JSON.stringify(rank+1)
+
+  }
+
+  switch (suit) {
+      case 0:
+          suit_str = 'c'; // clubs
+          break;
+      case 1:
+          suit_str = 'd' // diamonds
+          break;
+      case 2:
+          suit_str = 's' // spades
+          break;
+      case 3:
+          suit_str = 'h' //hearts
+          break;
+  }
+      
+  // check for 10 condition (only numeric value with two digits)
+  return rank_str.concat(suit_str);
+}
+
+export function translate_card(value : number): [number, number] {
+
+  let quot = Math.floor(value / 13);
+  let rem = value % 13;
+
+  let suit = 0
+  if (quot == 0 || quot == 4 || quot == 8  || quot == 12 ) {suit = 0} else
+  if (quot == 1 || quot == 5 || quot == 9  || quot == 13 ) {suit = 1} else
+  if (quot == 2 || quot == 6 || quot == 10 || quot == 14 ) {suit = 2} else
+  if (quot == 3 || quot == 7 || quot == 11 || quot == 15 ) {suit = 3} 
+
+  return [suit, rem]
+}
+
 
 /******************************************************************************
 random string

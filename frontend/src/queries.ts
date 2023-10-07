@@ -6,12 +6,12 @@ import { SecretNetworkClient } from "secretjs";
 import { swal_error } from "./helpers";
 
 
-export async function instance_state(contractCodeHash : string ):  Promise<[i.InstanceState | any, boolean ]>  {
+export async function instance_state():  Promise<[i.InstanceState | any, boolean ]>  {
 
 
     let handInfo : i.InstanceState | any = await pvp.cli?.query.compute.queryContract({
         contract_address: pvp.CONTRACT_ADDRESS,
-        code_hash: contractCodeHash,
+        code_hash: pvp.code_hash,
         query: { instance_state : { 
         sender_addr : pvp.cli.address, 
         sender_key: pvp.viewing_key

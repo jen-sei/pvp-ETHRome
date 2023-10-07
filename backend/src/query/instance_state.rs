@@ -21,5 +21,7 @@ pub fn query_instance_state(
     Ok(super::InstanceState { 
         hand: inst.hand, 
         bet: inst.bet, 
-        dealt: inst.dealt,})
+        dealt: inst.dealt,
+        last_outcome: inst.last_outcome
+    })
 }

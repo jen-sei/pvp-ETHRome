@@ -1,3 +1,4 @@
+
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -10,9 +11,13 @@ pub struct Instance {
     pub hand: Vec<u8>,
     pub rng: Pcg64,
     pub dealt: bool,
-    pub bet: u8
+    pub bet: u8,
+    pub last_outcome: String
 }
+
+#[derive(Debug)]
 pub enum Outcome {
+    UNDEFINED,
     LOSE,
     TwoPair,
     JacksOrBetter,
@@ -29,7 +34,7 @@ pub enum Outcome {
 impl Outcome {
     fn value(&self) -> u8 {
         match *self {
-            Outcome::LOSE => 0,
+            Outcome::LOSE | Outcome::UNDEFINED => 0,
             Outcome::JacksOrBetter => 1,
             Outcome::TwoPair => 2,
             Outcome::ThreeOfAKind => 3,
@@ -73,7 +78,9 @@ impl Instance {
 
         // we determine the outcome and return the 
         // value of the draw here
-        Ok(self.get_outcome().value())
+        let outcome = self.get_outcome();
+        self.last_outcome = format!("{:?}", outcome);
+        Ok(outcome.value())
     }
 
     pub fn shuffle_deck(&mut self, times: u8) {
@@ -274,7 +281,8 @@ mod test_instance {
             hand: vec![],
             dealt: false,
             rng: Pcg64::from_seed([0u8; 32]),
-            bet: 1
+            bet: 1,
+            last_outcome: format!("{:?}", Outcome::UNDEFINED)
         }
     }
 

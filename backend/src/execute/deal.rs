@@ -1,6 +1,6 @@
 use cosmwasm_std::{DepsMut, Env, MessageInfo, StdResult, Response, StdError};
 
-use crate::{helpers::{make_payment, try_option}, generated::state::INSTANCES, instance::Instance, rng::Pcg64};
+use crate::{helpers::{make_payment, try_option}, generated::state::INSTANCES, instance::{Instance, Outcome}, rng::Pcg64};
 
 
     // Ask contract to deal 4 cards to player
@@ -17,7 +17,8 @@ pub fn execute_deal( deps : DepsMut,
                 hand: vec![],
                 dealt: false,
                 rng: Pcg64::from_seed(try_option(env.block.random.clone())?.to_array::<32>()?),
-                bet
+                bet,
+                last_outcome: format!("{:?}", Outcome::UNDEFINED)
             }
         };
 
@@ -28,10 +29,10 @@ pub fn execute_deal( deps : DepsMut,
         // the bet will go up to 5 scrt
         make_payment(&env, &info, bet as u128 * 1_000_000, "uscrt".to_string())?;
 
-
-
         inst.shuffle_deck(2);
         inst.deal()?;
+
+        INSTANCES.insert(deps.storage, &info.sender.to_string(), &inst)?;
         
         Ok(Response::new())
     }

@@ -69,8 +69,8 @@ make build_fe
 if [[ $* == --docker* ]]; then
   cd frontend
   printf "building and uploading to docker\n"
-  sudo docker build -t "yaesha/aart_blackjack:$DEV_FE_VERSION" .
-  sudo docker push "yaesha/aart_blackjack:$DEV_FE_VERSION"
+  sudo docker build -t "yaesha/pvp:$DEV_FE_VERSION" .
+  sudo docker push "yaesha/pvp:$DEV_FE_VERSION"
 fi
 
 printf "done!\n"

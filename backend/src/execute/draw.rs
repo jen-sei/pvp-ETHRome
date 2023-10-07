@@ -30,7 +30,6 @@ pub fn execute_draw(
         }
 
         // return all unheld cards from hand to deck, reshuffle and refill hand.
-    
         INSTANCES.insert(deps.storage, &info.sender.to_string(), &inst)?;
         Ok(Response::new())
     }
