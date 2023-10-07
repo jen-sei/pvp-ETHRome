@@ -11,8 +11,8 @@ interface ControlsProps {
     setDealt: React.Dispatch<React.SetStateAction<boolean>>,
     need_vk: boolean,
     setNeedVk: React.Dispatch<React.SetStateAction<boolean>>,
-    unheld: Set<number>,
-    setUnheld: React.Dispatch<React.SetStateAction<Set<number>>>,
+    held: Set<number>,
+    setHeld: React.Dispatch<React.SetStateAction<Set<number>>>,
 }
 function Controls( props : ControlsProps) {
 
@@ -32,13 +32,13 @@ function Controls( props : ControlsProps) {
             return;
         }
         props.setDealt(true);
-        props.setUnheld(new Set<number>([0,1,2,3,4]));
+        props.setHeld(new Set<number>([0,1,2,3,4]));
     }
 
     const handleDraw = async () => {
         let tx = await send_tx(
             pvp.code_hash, 
-            { draw : { unheld: Array.from(props.unheld) }},
+            { draw : { held: Array.from(props.held) }},
             [], 66_000);
 
         if (typeof tx === 'string') {

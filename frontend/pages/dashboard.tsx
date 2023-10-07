@@ -6,7 +6,7 @@ import { instance_state } from '@/src/queries';
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { ERR_UNAUTHORISED, pvp } from '@/generated/constants';
-import Image  from 'next/image'
+import { currency_str } from '@/src/helpers';
 
 
 
@@ -19,7 +19,7 @@ function Dashboard() {
   const [outcome, setOutcome] = useState('UNDEFINED');
   const [won, setWon] = useState('-');
   const [need_vk, setNeedVk] = useState(false);
-  const [unheld, setUnheld] = useState(new Set<number>([0,1,2,3,4]))
+  const [held, setHeld] = useState(new Set<number>([]))
 
 
   useEffect(function () {
@@ -38,7 +38,9 @@ function Dashboard() {
         setHand(inst_state.hand);
         setDealt(inst_state.dealt);
         setOutcome(inst_state.last_outcome);
-        setWon(inst_state.last_win);
+
+        let won_curr = currency_str(inst_state.last_win, "uscrt");
+        setWon(`${won_curr[0]} ${won_curr[1]}`);
 
       } else if (ERR_UNAUTHORISED.test(inst_state_result[0])){
         setNeedVk(true);
@@ -66,8 +68,8 @@ function Dashboard() {
       <div className='w-2/3 h-60 left-0 right-0 m-auto'>
           <Hand 
           hand={hand}
-          unheld={unheld}
-          setUnheld={setUnheld}/>
+          held={held}
+          setHeld={setHeld}/>
       </div>
 
       <div className='m-auto left-0 right-0'>
@@ -85,8 +87,8 @@ function Dashboard() {
           setDealt={setDealt} 
           need_vk={need_vk} 
           setNeedVk={setNeedVk}
-          unheld={unheld}
-          setUnheld={setUnheld}/>
+          held={held}
+          setHeld={setHeld}/>
       
 
     </div>
