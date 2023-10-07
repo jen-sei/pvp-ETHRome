@@ -4,5 +4,6 @@ A privacy-preserving and fully on-chain retro video poker, leveraging Secret VRF
 
 ![Secret Slots Presents (no-log)](https://github.com/yaesha256/secret_slots_ETHRome/assets/101796507/ad39f1f3-0188-403c-b622-3d560ace59b5)
 ![Games (logged in)](https://github.com/yaesha256/secret_slots_ETHRome/assets/101796507/08f0beaa-2ef0-44dc-adbe-70611f637953)
-![Poker (play)](https://github.com/yaesha256/secret_slots_ETHRome/assets/101796507/5c135afe-a0b5-4295-a6af-6be58dab558e)
-![Poker (game info)](https://github.com/yaesha256/secret_slots_ETHRome/assets/101796507/2873c781-5247-4830-af50-94420e74df8f)
+![Poker (play) (1)](https://github.com/yaesha256/secret_slots_ETHRome/assets/101796507/7608f37e-7915-4c56-b8e1-1f32cb5e426b)
+![Poker (game info) (1)](https://github.com/yaesha256/secret_slots_ETHRome/assets/101796507/1e9fc932-b2b1-4dad-b398-0233d824c376)
+
