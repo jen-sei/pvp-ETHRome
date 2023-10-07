@@ -66,7 +66,7 @@ fi
 printf "building frontend...\n"
 make build_fe
 
-if [[ $* == --docker* ]]; then
+if [[ $* == *--docker* ]]; then
   cd frontend
   printf "building and uploading to docker\n"
   sudo docker build -t "yaesha/pvp:$DEV_FE_VERSION" .

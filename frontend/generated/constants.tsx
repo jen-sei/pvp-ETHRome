@@ -28,7 +28,7 @@ export class Pvp {
 
 BLACKJACK_VERSION : string     = "0.0.0-hackathon";              
 CONTRACT_ADDRESS : string      = "secret1lrhqm0y74cd9g0ag7qay5sjlhtp82ulep3tfzn";     
-CODE_ID : number               = 1565;                
+CODE_ID : number               = 1570;                
 CHAIN_ID : string               = "pulsar-3";            
 LCD_URL : string               = "https://lcd.pulsar-3.secretsaturn.net";            
 
@@ -82,7 +82,7 @@ LCD_URL : string               = "https://lcd.pulsar-3.secretsaturn.net";
 
     let set_vk_result = await send_tx(this.code_hash as string,
       {set_viewing_key: { key: entropy }}, 
-      [], 55_000, 100) as TxResponse;
+      [], 55_000, (pvp.enable_alias? pvp.cli: pvp.granter)) as TxResponse;
     
     if (set_vk_result.arrayLog) {
       this.viewing_key = set_vk_result.arrayLog[6].value;

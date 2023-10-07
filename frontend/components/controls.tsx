@@ -42,36 +42,36 @@ function Controls( props : ControlsProps) {
     }
     
   return (
-    <>
-    <div 
-    onClick={async _ => {await pvp.generate_vk()}} 
-    className='float-left bg-red-300 p-8 hover:bg-red-600'>
-        set viewing key
-    </div>
+    <div className='absolute m-auto left-0 right-0 w-full h-fit'>
+        <div 
+        onClick={async _ => {await pvp.generate_vk()}} 
+        className='float-left bg-red-300 p-8 hover:bg-red-600'>
+            set viewing key
+        </div>
 
-    <div 
-    onClick={_ => props.setBet(props.bet-1)} 
-    className='float-left bg-red-300 p-8 hover:bg-red-600'>
-        down bet
-    </div>
+        <div 
+        onClick={_ => props.setBet(props.bet-1)} 
+        className='float-left bg-red-300 p-8 hover:bg-red-600'>
+            down bet
+        </div>
 
-    <div 
-    className='float-left bg-red-300 p-8 hover:bg-red-600'>
-        bet {props.bet}
-    </div>
+        <div 
+        className='float-left bg-red-300 p-8 hover:bg-red-600'>
+            bet {props.bet}
+        </div>
 
-    <div 
-    onClick={_ => props.setBet(props.bet+1)} 
-    className='float-left bg-red-300 p-8 hover:bg-red-600'>
-        up bet
-    </div>
+        <div 
+        onClick={_ => props.setBet(props.bet+1)} 
+        className='float-left bg-red-300 p-8 hover:bg-red-600'>
+            up bet
+        </div>
 
-    <div 
-    onClick={async _ => { props.dealt? await handleDraw() : await handleDeal() }}
-    className='float-left bg-red-300 p-8 hover:bg-red-600'>
-        {props.dealt ? 'draw':'deal'}
+        <div 
+        onClick={async _ => { props.dealt? await handleDraw() : await handleDeal() }}
+        className='float-left bg-red-300 p-8 hover:bg-red-600'>
+            {props.dealt ? 'draw':'deal'}
+        </div>
     </div>
-    </>
   )
 }
 

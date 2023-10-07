@@ -79,6 +79,17 @@ function LandingPage() {
             style={{objectFit:"cover"}}
           />
 
+        <div className=' absolute w-1/2 h-48 pl-5 right-0 top-1/3 rounded-l-2xl select-none rainbow-bg'>
+          <Image 
+              width="0"
+              height="0"
+              sizes="100vw"
+              className="w-full h-full rounded-l-2xl select-none"
+              alt='header' 
+              src="/images/header.png"
+              />
+          </div>
+
         <div 
         onClick={async e => await handleConnect() }
 

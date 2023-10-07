@@ -6,7 +6,7 @@ interface IBettingTableProps {
 
 function BettingTable( props : IBettingTableProps) {
   return (
-    <div>
+    <div className='p-8'>
         
         <div className={`table w-full`}>
 

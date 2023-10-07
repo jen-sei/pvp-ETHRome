@@ -6,6 +6,10 @@ import { pvp } from '@/generated/constants';
 // maps a cad number to the corresponding image name
 export function numberToImg(num : number): string {
 
+  if (num == 255) {
+    return 'back';
+  }
+
   let [suit, rank] = translate_card(num);
 
   let rank_str = '';

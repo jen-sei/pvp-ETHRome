@@ -6,6 +6,8 @@ import { instance_state } from '@/src/queries';
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { pvp } from '@/generated/constants';
+import Image  from 'next/image'
+
 
 
 function Dashboard() {
@@ -31,6 +33,7 @@ function Dashboard() {
         // sync state with backend
         setHand(inst_state.hand);
         setDealt(inst_state.dealt);
+        console.log(inst_state_result[0]);
 
       } else {
         console.log(inst_state_result[0]);
@@ -43,9 +46,15 @@ function Dashboard() {
   return (
     <div className='w-screen h-screen'>
       <BettingTable bet={bet}/>
-      <Hand hand={hand}/>
-      <Controls bet={bet} setBet={setBet} dealt={dealt} setDealt={setDealt}/>
-      <div id='control buttons'></div>
+
+        <div className='w-2/3 left-0 right-0 m-auto'>
+            <Hand hand={hand}/>
+        </div>
+
+        <div className='absolute bottom-20 bg-green-300 w-full h-20'>
+          <Controls bet={bet} setBet={setBet} dealt={dealt} setDealt={setDealt}/>
+        </div>
+
     </div>
   )
 }
