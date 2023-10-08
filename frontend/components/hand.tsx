@@ -37,7 +37,7 @@ function Hand(props : HandProps) {
           src={`/deck/${numberToImg(props.hand[0])}.png`}
           />
           <div className={`
-          text-center w-full p-4 ${props.dealt? '':'hidden'}
+          text-center w-full p-4 text-white ${props.dealt? '':'hidden'}
           ${props.held.has(props.hand[0]) ? 'rainbow' :''} `}>
             {props.held.has(props.hand[0]) ? 'held!' : 'click to hold'}
           </div>
@@ -55,7 +55,7 @@ function Hand(props : HandProps) {
           src={`/deck/${numberToImg(props.hand[1])}.png`}
           />
           <div className={`
-          text-center w-full p-4 ${props.dealt? '':'hidden'}
+          text-center w-full p-4 text-white ${props.dealt? '':'hidden'}
           ${props.held.has(props.hand[1]) ? 'rainbow' :''} `}>
             {props.held.has(props.hand[1]) ? 'held!' : 'click to hold'}
           </div>
@@ -73,7 +73,7 @@ function Hand(props : HandProps) {
           src={`/deck/${numberToImg(props.hand[2])}.png`}
           />
           <div className={`
-          text-center w-full p-4 ${props.dealt? '':'hidden'}
+          text-center w-full p-4 text-white ${props.dealt? '':'hidden'}
           ${props.held.has(props.hand[2]) ? 'rainbow' :''} `}>
             {props.held.has(props.hand[2]) ? 'held!' : 'click to hold'}
           </div>
@@ -91,7 +91,7 @@ function Hand(props : HandProps) {
           src={`/deck/${numberToImg(props.hand[3])}.png`}
           />
           <div className={`
-          text-center w-full p-4 ${props.dealt? '':'hidden'}
+          text-center w-full p-4 text-white ${props.dealt? '':'hidden'}
           ${props.held.has(props.hand[3]) ? 'rainbow' :''} `}>
             {props.held.has(props.hand[3]) ? 'held!' : 'click to hold'}
           </div>
@@ -109,7 +109,7 @@ function Hand(props : HandProps) {
           src={`/deck/${numberToImg(props.hand[4])}.png`}
           />
           <div className={`
-          text-center w-full p-4 ${props.dealt? '':'hidden'}
+          text-center w-full p-4 text-white ${props.dealt? '':'hidden'}
           ${props.held.has(props.hand[4]) ? 'rainbow' :''} `}>
             {props.held.has(props.hand[4]) ? 'held!' : 'click to hold'}
           </div>

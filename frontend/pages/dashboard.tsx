@@ -19,8 +19,7 @@ function Dashboard() {
   const [won, setWon] = useState('-');
   const [need_vk, setNeedVk] = useState(false);
   const [held, setHeld] = useState(new Set<number>([]));
-  const [user_bal, setBalance] = useState('-')
-
+  const [user_bal, setBalance] = useState('-');
 
   useEffect(function () {
 
@@ -39,7 +38,8 @@ function Dashboard() {
         // sync state with backend
         setHand(inst_state.hand);
         setDealt(inst_state.dealt);
-        setOutcome(inst_state.last_outcome);
+
+        if (!inst_state.dealt) setOutcome(inst_state.last_outcome);
 
         let won_curr = currency_str(inst_state.last_win, "uscrt");
         setWon(`${won_curr[0]} ${won_curr[1]}`);
@@ -57,14 +57,14 @@ function Dashboard() {
     // check state every 7 seconds
     const id = setInterval(do_query, 7000);
     return () => clearInterval(id);
-  },[dealt]);
+  },[dealt, outcome]);
 
 
 
   return (
-    <div className='w-screen h-screen relative p-10 bg-blue-900'>
+    <div className='w-screen h-screen relative p-10 bg-retro-blue'>
 
-      <div className='w-full h-full bg-sky-950 relative'>
+      <div className='w-full h-full bg-black relative'>
 
         <BettingTable 
         bet={bet}
@@ -84,13 +84,11 @@ function Dashboard() {
             setHeld={setHeld}/>
         </div>
 
-
-
-        <div className='p-2 text-lg bg-white w-fit inline rounded-r-2xl'>
+        <div className='p-2 text-lg bg-white w-fit inline text-black rounded-r-2xl'>
           {dealt ? '-' : `You won: ${won}` }
         </div>
 
-        <div className='p-2 float-right text-lg inline bg-white rounded-l-2xl'>
+        <div className='p-2 float-right text-lg inline bg-white text-black rounded-l-2xl'>
           Credit: {user_bal}
         </div>
 
@@ -102,8 +100,8 @@ function Dashboard() {
             need_vk={need_vk} 
             setNeedVk={setNeedVk}
             held={held}
-            setHeld={setHeld}/>
-        
+            setHeld={setHeld}
+            setOutcome={setOutcome}/>
       </div>
       
 

@@ -4,7 +4,6 @@ use cosmwasm_std::{
 
 use crate::execute;
 use crate::execute::ExecuteMsg;
-
 use crate::instantiate::{InstantiateMsg, MigrateMsg};
 use crate::query;
 use crate::query::QueryMsg;

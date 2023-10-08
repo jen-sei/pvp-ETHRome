@@ -115,11 +115,11 @@ impl Instance {
         // in order of best to worst
         if self.is_royal_flush() { return Outcome::RoyalFlush; }
         if self.is_straight_flush() { return Outcome::StraightFlush; }
-        if self.is_four_of_akind() { return Outcome::FourOfAKind; }
+        if self.is_four_of_a_kind() { return Outcome::FourOfAKind; }
         if self.is_full_house() { return Outcome::FullHouse; }
         if self.is_flush() { return Outcome::Flush; }
         if self.is_straight() { return Outcome::Straight; }
-        if self.is_three_of_akind() { return Outcome::ThreeOfAKind; }
+        if self.is_three_of_a_kind() { return Outcome::ThreeOfAKind; }
         if self.is_two_pair() { return Outcome::TwoPair; }
         if self.is_jacks_or_better() { return Outcome::JacksOrBetter; }
 
@@ -128,21 +128,29 @@ impl Instance {
 
     fn is_full_house (&self) -> bool {
          
-        self.hand.iter().any(|i| translate_card(*i).0 == 0) &&
-        self.hand.iter().any(|i| translate_card(*i).0 == 1) &&
-        self.hand.iter().any(|i| translate_card(*i).0 == 2) &&
-        self.hand.iter().any(|i| translate_card(*i).0 == 3) 
+         // check for two pair then check remaining three
+         // are
+
+         let has_three_of_kind = self.is_three_of_a_kind();
+         let has_two_of_kind = 
+         self.hand.iter().filter(|&n| translate_card(*n).1 == translate_card(self.hand[0]).1).count() == 2 ||
+         self.hand.iter().filter(|&n| translate_card(*n).1 == translate_card(self.hand[1]).1).count() == 2 ||
+         self.hand.iter().filter(|&n| translate_card(*n).1 == translate_card(self.hand[2]).1).count() == 2 ||
+         self.hand.iter().filter(|&n| translate_card(*n).1 == translate_card(self.hand[3]).1).count() == 2 ;
+
+
+         has_three_of_kind && has_two_of_kind
 
     }
 
-    fn is_four_of_akind (&self) -> bool {
+    fn is_four_of_a_kind (&self) -> bool {
 
         // count first 2 since there are 5 (n-3)
         self.hand.iter().filter(|&n| translate_card(*n).1 == translate_card(self.hand[0]).1).count() == 4 ||
         self.hand.iter().filter(|&n| translate_card(*n).1 == translate_card(self.hand[1]).1).count() == 4 
     } 
 
-    fn is_three_of_akind (&self) -> bool {
+    fn is_three_of_a_kind (&self) -> bool {
 
         // count first 3 since there are 5 (n-2)
         self.hand.iter().filter(|&n| translate_card(*n).1 == translate_card(self.hand[0]).1).count() == 3 ||
@@ -416,9 +424,11 @@ mod test_instance {
 
         let mut inst = mock_inst();
 
-        // 4 unique suits. We Know they are unique because the first 
-        // 4 are at least 13 apart.
-        inst.hand = vec![0, 14, 27, 40, 2];
+        inst.hand = vec![0, 13, 26, 1, 14];
+        inst.dealt = true;
+        assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::FullHouse.value()); 
+
+        inst.hand = vec![27, 13, 26, 1, 14];
         inst.dealt = true;
         assert_eq!(inst.draw(&inst.hand.clone()).unwrap(), Outcome::FullHouse.value()); 
 
@@ -518,6 +528,5 @@ mod test_instance {
         assert_eq!(inst.hand[2], at_2);
         assert_eq!(inst.hand[4], at_4);
     }
-
 
 }

@@ -9,7 +9,6 @@ import { MsgExecuteContract, MsgGrantAllowance, SecretNetworkClient, TxResponse,
 import { random_string, swal_confirm, swal_error } from "@/src/helpers";
 import { send_tx } from "@/src/transactions";
 
-
 export class Pvp {
 
   /// BEGIN AUTOGEN METADATA 

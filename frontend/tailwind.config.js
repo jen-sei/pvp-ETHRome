@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       colors: {
         'taro-tarot': '#aba8e0',
+        'retro-blue': '#0d3dc9'
       },
       spacing: {
         '18': '4.05rem',

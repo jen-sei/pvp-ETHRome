@@ -20,7 +20,6 @@ pub fn execute_deal( deps : DepsMut,
                 bet,
                 last_outcome: format!("{:?}", Outcome::Undefined),
                 last_win: "0".to_string()
-
             }
         };
 
@@ -28,9 +27,9 @@ pub fn execute_deal( deps : DepsMut,
             return Err(StdError::generic_err("already dealt"));
         }
 
-        // the bet will go up to 5 scrt
         make_payment(&env, &info, bet as u128 * 1_000_000, "uscrt".to_string())?;
         inst.deal()?;
+        inst.bet = bet;
         INSTANCES.insert(deps.storage, &info.sender.to_string(), &inst)?;
         
         Ok(Response::new())

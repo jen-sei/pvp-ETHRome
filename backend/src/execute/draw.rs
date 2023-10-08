@@ -30,6 +30,7 @@ pub fn execute_draw(
 
         }
 
+        inst.last_win = "0".to_string();
         INSTANCES.insert(deps.storage, &info.sender.to_string(), &inst)?;
         Ok(Response::new())
     }

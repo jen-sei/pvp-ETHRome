@@ -1,7 +1,7 @@
 import { pvp } from '@/generated/constants'
 import { swal_error } from '@/src/helpers'
 import { send_tx } from '@/src/transactions'
-import React from 'react'
+import React, { useCallback } from 'react'
 
 
 interface ControlsProps {
@@ -13,6 +13,7 @@ interface ControlsProps {
     setNeedVk: React.Dispatch<React.SetStateAction<boolean>>,
     held: Set<number>,
     setHeld: React.Dispatch<React.SetStateAction<Set<number>>>,
+    setOutcome: React.Dispatch<React.SetStateAction<string>>
 }
 function Controls( props : ControlsProps) {
 
@@ -33,6 +34,7 @@ function Controls( props : ControlsProps) {
         }
         props.setDealt(true);
         props.setHeld(new Set<number>([]));
+        props.setOutcome('-');
     }
 
     const handleDraw = async () => {
@@ -51,7 +53,8 @@ function Controls( props : ControlsProps) {
     }
     
   return (
-    <div className='absolute m-auto bottom-5 p-4 left-0 right-0 w-full h-fit'>
+    <div className='absolute select-none text-white m-auto bottom-5 p-4 left-0 right-0 w-full h-fit'>
+
         <div 
         onClick={async _ => { if (props.need_vk) await handleSetVk()}} 
         className={`float-left bg-red-300 p-4 rounded-l-2xl hover:bg-red-600 ${props.need_vk ? 'rainbow-bg' :'opacity-50'}`}>
@@ -59,25 +62,25 @@ function Controls( props : ControlsProps) {
         </div>
 
         <div 
-        onClick={_ => { if (props.bet>1) props.setBet(props.bet-1) }} 
-        className='float-left bg-red-300 p-4 hover:bg-red-600 no-select'>
+        onClick={_ => { if (!props.dealt && props.bet>1)  props.setBet(props.bet-1) }} 
+        className='float-left bg-red-400 p-4 hover:bg-red-800 select-none'>
             down bet
         </div>
 
         <div 
-        className='float-left bg-red-600 p-4 no-select'>
+        className={`float-left bg-red-600 ${props.dealt? 'opacity-50' :''} p-4 select-none`}>
             bet {props.bet}
         </div>
 
         <div 
-        onClick={_ => { if (props.bet<5) props.setBet(props.bet+1) }} 
-        className='float-left bg-red-300 p-4 hover:bg-red-600 no-select'>
+        onClick={_ => { if (!props.dealt && props.bet<5)  props.setBet(props.bet+1) }} 
+        className='float-left bg-red-400 p-4 hover:bg-red-800 select-none'>
             up bet
         </div>
 
         <div 
         onClick={async _ => {  if (!props.need_vk) {props.dealt? await handleDraw() : await handleDeal()} }}
-        className={`float-left bg-red-300 rounded-r-2xl p-4 hover:bg-red-600 ${props.need_vk? 'opacity-50': ''}`}>
+        className={`float-left bg-red-400 rounded-r-2xl p-4 hover:bg-red-800 ${props.need_vk? 'opacity-50': ''}`}>
             {props.dealt ? 'draw':'deal'}
         </div>
     </div>
